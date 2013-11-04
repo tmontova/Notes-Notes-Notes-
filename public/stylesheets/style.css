@@ -7,7 +7,7 @@ body {
 	margin: 0;
 }
 
-a {
+#page_header a {
 	color: white;
 	text-decoration: none;
 	margin-right: 10px;
@@ -127,7 +127,7 @@ td, th {
 	bottom: 0;
 }
 
-.search_results_header {
+.search_header {
 	width: 100%;
 	border-bottom-style: solid;
 	border-bottom-width: 1px;

@@ -1,0 +1,63 @@
+#shared_item_container{
+	position: absolute; 
+	left: 20px; 
+	top: 75px; 
+	width: 200px; 
+	height: 70px;
+}
+#ImageTile-1259_0{
+	width:48px;
+	height:48px; 
+	overflow: hidden;
+}
+.bigbutton{
+	height:100;
+	width:80%;
+	background-color:red;
+	border-radius:5;
+	position: relative;
+	left: 20px;
+	top: 50px;
+}
+.searchData{
+
+}
+#search_results{
+	position: relative;
+	top: 70px;
+}
+#search_results_header, #edit_header{
+	position: relative;
+	left: 20px;
+}
+.sharedData{
+	color: black;
+}
+#item_to_share{
+	cursor: pointer;
+}
+.searchData{
+	cursor: pointer;
+}
+.selected{
+	cursor: pointer;
+	background-color: #A4A4A4;
+	border-radius: 5px;
+	width: 500px;
+	padding-left: 5px;
+}
+#share_button, #save_button{
+	left: 200px;
+	top: 20px;
+	padding: 4px 8px;
+}
+#edit_button{
+	top: 5px;
+	left: 120px;
+	padding: 1px 4px;
+}
+
+#shared_item_container{
+	position: relative;
+	top: 20px;
+}

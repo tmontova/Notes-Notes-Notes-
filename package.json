@@ -1,13 +1,12 @@
 {
-	"name" : "Notes!Notes!Notes!",
-	"version" : "0.1.0",
-	"author" : "No Name Team <tallman@umass.edu>",
-	"private" : true,
-	"scripts" : {
-		"start" : "node app.js"
-	},
-	"dependencies" : {
-		"express" : "~3.4.3",
-		"ejs" : "~0.8.4"
-	}
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.4.0",
+    "ejs": "*"
+  }
 }
