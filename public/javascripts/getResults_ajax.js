@@ -38,14 +38,6 @@ $(function (){
 		});
 	}
 
-	function bindEditResults(){
-		$('#edit_button').bind('click', function() {
-			$('#search_results_div').html('');
-			getEditResults();
-		});
-	}
-
-
 	function getEditResults(){
 		getResults('', 'share/edit', function(msg){
 		var html = '<h2 id="edit_results_header"> Edit: </h2><button type="submit" id="delete_button" class="btn btn-primary">Delete!</button>';
@@ -91,6 +83,13 @@ $(function (){
 		});
 	}
 
+	function bindEditResults(){
+		$('#edit_button').bind('click', function() {
+			$('#search_results_div').html('');
+			getEditResults();
+		});
+	}
+
 	function onAjaxLoadReadyHandlers(){
 		$('.searchData').bind('click', function(){				//selection highlighting
 			var that = $(this);
@@ -105,38 +104,44 @@ $(function (){
 
 		$('#search_view_button').bind('click', function(){				//add user from search, able to view
 			var id = $('.selected').attr('id');
-			getResults(id, '/share/canViewChange', function(){
-				getResults(id, '/share/addUser', function(){
+			var obj = {id: id, permission: false}
+
+			getResults(id, '/share/addUser', function(){
 				$('#search_results_div').html('');
 				getSidebarResults();
-				});
 			});
 		});	
+
 		$('#search_edit_button').bind('click', function(){				//add user from search, able to edit
 			var id = $('.selected').attr('id');
-			getResults(id, '/share/canEditChange', function(){
-				getResults(id, '/share/addUser', function(){
+			var obj = {id: id, permission: true}
+
+			getResults(id, '/share/addUser', function(){
 				$('#search_results_div').html('');
 				getSidebarResults();
-				});
 			});
 		});	
 
 		$('#allow_edit_button').bind('click', function(){		//change permission from edit users, allowed to edit
 			var id = $('.selected').attr('id');
-			console.log("id: "+id);
-			getResults(id, '/share/canEditChange', function(){
+			var obj = {id: id, permission: true}
+
+			getResults(id, '/share/changePermission', function(){
 				getSidebarResults();
 				getEditResults();
 			});
 		});
+
 		$('#allow_view_button').bind('click', function(){		//change permission from edit users, allowed to view
 			var id = $('.selected').attr('id');
-			getResults(id, '/share/canViewChange', function(){
+			var obj = {id: id, permission: false}
+
+			getResults(id, '/share/changePermission', function(){
 				getSidebarResults();
 				getEditResults();
 			});
-		});		
+		});
+				
 		$('#delete_button').bind('click', function(){			//delete user from edit useres
 			var id = $('.selected').attr('id');
 			getResults(id, '/share/deleteUser', function(msg){
@@ -146,8 +151,6 @@ $(function (){
 			});
 		});		
 	}
-
-
 
 bindSearchResults();
 bindEditResults();
