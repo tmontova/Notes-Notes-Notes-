@@ -1,0 +1,20 @@
+<div id="sidebar">
+	<div id="searchContainer">
+		<% if ( typeof selectedNotebook === 'undefined' ) { %>
+			<form action="/search" method="" target="_top" id="searchBox">
+				<label id="searchBox_label">
+					<input type="text" name="q" placeholder="Search Everything" id="searchField" />
+				</label>
+				<input title="Search" type="submit" id="searchButton" value />
+			</form>
+		<% } else { %>
+			<form action="/<%= selectedNotebook.id %>/search" method="" target="_top" id="searchBox">
+				<label id="searchBox_label">
+					<input type="search" name="q" placeholder="Search <%= selectedNotebook.name %>" id="searchField" />
+				</label>
+				<input title="Search" type="submit" id="searchButton" value />
+			</form>
+		<% } %>
+	</div>
+	<div id="sidebarContainer"></div>
+</div>

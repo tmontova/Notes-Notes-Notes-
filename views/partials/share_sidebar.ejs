@@ -1,0 +1,28 @@
+<div id='sidebar'>
+	<div id='shared_item_container'>
+		Item to be shared:
+		<div>
+			<span id="ImageTile-1259_0" class="c-ImageTile" >
+				<img src="https://p.sfx.ms/skydrive_pc_strip_32_ltr_LseQkhnWcDudUPgNl3r9kQ2.png" class="visible" style="left:-51px;top:-239px;">
+			</span>
+			<span class='namePlate'>
+				<div id="item_to_share"><%= item_to_share %></div>
+			</span>
+			</div>
+		</div>
+
+		<div style="width:180px;top:150px;">
+			<div class='sd_menu_subheader'>Shared With:</div><button id='edit_button' class= 'btn btn-primary'>Edit</button>
+			<ul id='sharedList' style='top:20px;'>
+			<% for(var i=0; i<shared.length; i++) { %>
+   					<li class="sharedData"> <%= shared[i].fname %> <%=shared[i].lname %> <br>
+   				<% if(shared[i].edit===true){ %> 
+   					<li> Can Edit </li>
+   				<% } else{ %> 
+   					<li> Can View </li>
+   				<% } %> 
+   					<br>
+				<% } %>
+			</ul>
+	</div>
+</div>

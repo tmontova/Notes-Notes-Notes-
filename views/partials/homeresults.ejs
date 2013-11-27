@@ -1,0 +1,29 @@
+<div id="nHidden" style="display:none;">
+	<% results2.forEach(function( n ) { %>
+	<div class="searchResult" id="<%= n._id %>">
+		<!-- TODO -->
+		<a href="#">
+			<span class="hoverWrapper">
+				<span class="itemTile">
+					<% if (n.type === 'note') { %>
+						<span class="noteIcon">
+							<img src="/images/noteIcon.png"/>
+						</span>
+					<% } else { %>
+						<span class="notebookIcon">
+							<img src="/images/notebookIcon.png"/>
+						</span>
+					<% } %>
+					<span class="namePlate">
+						<%= n.title %>
+					</span>
+				</span>
+				<span class="selectBox">
+					<input type="checkbox" class="checkbox"/>
+					<label></label>
+				</span>
+			</span>
+		</a>
+	</div>
+	<% }) %>
+</div>

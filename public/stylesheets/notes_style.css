@@ -1,0 +1,64 @@
+/* edit notes */
+#wrapper {
+     width: 100%;
+     margin: 0 auto;
+     /*position: relative;*/
+     overflow: auto;
+}
+
+#text-container {
+     margin-left: 220px;
+     background-color: white;
+     height: 100%;
+}
+#notes-text {
+        width: 100%;
+        height: 90vh;
+
+}
+
+#save-b {
+    margin-top: 50px;
+    margin-left: 80px;
+}
+
+/* view notes */
+#body {
+    background-color: #EEEEEE;
+    overflow: auto;
+}
+#document {
+        background-color: white;
+        display: block;
+        margin: 10px auto 50px auto;
+        width: 8.5in;
+        height: 11in;
+        overflow: auto;
+}
+#text {
+    margin: 0.5in 0.5in 0.5in 0.5in;
+}
+#text-editor {
+    width: 100%;
+    height: 100%;
+}
+
+/* note sidebar */
+#user_list {
+    position: relative;
+
+}
+#navEditOps-d {
+    position: relative;
+    top: 10px;
+    left: 100px;
+}
+#title_input {
+    background-color: white;
+    border: #bababa 1px solid;
+    height: 28px;
+    line-height: 28px;
+    padding-right: 35px;
+    width: 250px;
+    top: 30px;
+}

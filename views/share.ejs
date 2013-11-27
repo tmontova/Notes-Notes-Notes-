@@ -1,95 +1,23 @@
 <title>Sharing - Notes! Notes! Notes!</title>
 <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-<link rel="stylesheet" type="text/css" href="/stylesheets/sharedejs.css">
-<script type="text/javascript" src="/javascripts/jquery-1.8.2.min.js"></script>
-<script type="text/javascript" src="/javascripts/sharescript.js"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/share.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="/javascripts/application.js"></script>
+<script type="text/javascript" src="/javascripts/getResults_ajax.js"></script>
+
 
 <header id='page_header'>
-	<a href='/' id='logo'>Notes! Notes! Notes!</a>
-	<div style='float:right;'>
-		<a href="#" style='margin-left:20px;'>?</a>
-		<a href="#"> <%= username %> </a>
-	</div>
+			<% include partials/navbar %>
 </header>
 
 
 <div id='body'>
-	<div id='sidebar'>
 
-		<div id='shared_item_container'>
-			Item to be shared:
-			<div>
-				<span id="ImageTile-1259_0" class="c-ImageTile" >
-					<img src="https://p.sfx.ms/skydrive_pc_strip_32_ltr_LseQkhnWcDudUPgNl3r9kQ2.png" class="visible" style="left:-51px;top:-239px;">
-				</span>
-				<span class='namePlate'>
-					<div id="item_to_share"><%= item_to_share %></div>
-				</span>
-			</div>
-		</div>
-
-		<div style="width:180px;top:150px;">
-			<div class='sd_menu_subheader'>Shared With:</div><button id='edit_button' class= 'btn btn-primary'>Edit</button>
-			<ul id='sharedList' style='top:20px;'>
-
-				<% for(var i=0; i<shared.length; i++) {%>
-   					<li class="sharedData"> <%= shared[i].name %><br>
-					<% if(shared[i].canEdit===true){ %>
-   						Can Edit </li>
-   					<% } if (shared[i].canEdit===false){ %>
-   						Can View </li>
-   					<% } %>
-   					<br>
-   
-
-				<% } %>
-
-			</ul>
-
-		</div>
-	</div>
-
-
-
-
+		<% include partials/share_sidebar %>
 	<div id='results'>
-		<div class='search_header'>Share</div>
-		<table style='margin-top:30px'>
-			<tbody>
-				<tr>
-					<td>
-						<form id="search_form" style='margin-top:0;'>
-								<label for='share-email'>Search by Name or Email for Users to share with</label>
-								<input type='text' class='form-control' id='share-email' placeholder='Enter Name or Email' style='margin:10 0 10 0;' />
-								<button type='submit' class='btn btn-primary'>Search</button>
-						</form>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<div id="search_results_header">
-			<% if(searchResults.length > 0){ %>
-				<h2> Search Results: </h2> <button type='submit' id='share_button' class='btn btn-primary'>Share!</button>
-			<% } %>
-		</div>	
-		<ul id="search_results">
-			<% for(var i=0; i<searchResults.length; i++) {%>
-   				<li class="searchData"> <%= searchResults[i].name %><br>
-   				<%= searchResults[i].email %></li><br>
-			<% } %>
-		</ul>
-
-		<div id="edit_header">
-			<% if(edit.length > 0){ %>
-				<h2> Edit: </h2> <button type='submit' id='save_button' class='btn btn-primary'>Save</button>
-			<% } %>
-		</div>	
-		<ul id="search_results">
-			<% for(var i=0; i<edit.length; i++) {%>
-   				<li class="searchData"> <%= edit[i].name %><br><br>
-			<% } %>
-		</ul>
+		<% include partials/share_searchbar %>
+		<table id='search_results_div'></table>	
+		<div id='edit_results_div'></div>
 	</div>
 
 </div>
