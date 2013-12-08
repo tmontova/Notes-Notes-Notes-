@@ -1,0 +1,55 @@
+/*----------Nav bar----------*/
+#navbar {
+	background-color: rgb(9, 74, 178);
+	color: white;
+	height: 40px;
+}
+
+#navbar a {
+	color: white;
+}
+
+/*Logo*/
+#logo-d {
+	float: left;
+	height: 40px;
+	padding-left: 10px;
+}
+
+#logo-d h1 {
+	height: 40px;
+}
+
+#logo-a {
+	display: inline-block;
+	font-size: 21px;
+	height: 40px;
+	line-height: 29px;
+	padding-left: 5px;
+	vertical-align: top;
+}
+
+#logo-s {
+	font-size: 21px;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 5px;
+}
+
+/*Login/Logged In user display*/
+#navLogin-d, #navUser-d {
+	float: right;
+	height: 40px;
+	padding: 0 10px 0 0;
+}
+
+#navLogin-a, #navUser-a {
+	display: inline-block;
+	height: 30px;
+	padding: 10px 10px 0 10px;
+}
+
+#navLogin-s, #navUserName {
+	display: inline-block;
+	vertical-align: top;
+}

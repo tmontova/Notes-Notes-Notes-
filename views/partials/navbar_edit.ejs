@@ -1,7 +1,42 @@
-<div id="navEditOps-d">
-	<span id="navEditOps-s">
-		<span id="navDownload">Download</span>
-		<span id="navAddTag">Add Tag</span>
-		<span id="navShare">Share</span>
-	</span>
-</div>
+<header>
+	<div id="navbar">
+		<div id="logo-d">
+			<h1>
+				<a href="/" id="logo-a">
+					<span id="logo-s">Notes! Notes! Notes!</span>
+				</a>
+			</h1>
+		</div>
+
+		<a href='/edithelp' onclick="window.open('/edithelp', '_blank', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=600,height=520,left = 400,top = 200'); return false;" target="newWin"; style='color: #FF0000; font-weight:bold; float: right; font-size: 30px'>?  </a> 
+
+		<div id="navEditOps-d">
+		<img src ="../images/whitePlusIcon.png"/>
+			<span id="navEditOps-s">
+				<span id="navDownload">Download</span>
+				<span id="navAddTag">Update Tags</span>
+				<a href=share id="navShare">Share</a>
+
+			</span>
+		</div>
+
+
+
+		<% if ( typeof signedInUser !== 'undefined' ) { %>
+		<div id="navUser-d">
+		<a href="homehelp" onclick="window.open('/homehelp', '_blank', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=600,height=520,left = 400,top = 200'); return false;" target="newWin"; style='margin-left:20px; color: #FF0000; font-weight:bold;'>?  </a>
+			<span id="navUser-s">
+				<span id="navUserName"><%= signedInUser.username -%></span>
+				<span id="navUserPic"><%= signedInUser.avatar %></span>
+			</span>
+		</div>
+		<% } else if( typeof loginPage !== 'undefined' ) {} else { %>
+		<div id="navLogin-d">
+		<a href="homehelp" onclick="window.open('/homehelp', '_blank', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=600,height=520,left = 400,top = 200'); return false;" target="newWin"; style='margin-left:20px; color: #FF0000; font-weight:bold;'>?  </a>
+			<a href="/login" id="navLogin-a">
+				<span id="navLogin-s">Log In</span>
+			</a>
+		</div>
+		<% } %>
+	</div>
+</header>

@@ -1,9 +1,15 @@
 /**
- * Created by tallman on 11/10/13.
+ * Author : Timm Allman
  */
+var MongoDB = require( 'mongodb' ),
+	MongoClient = MongoDB.MongoClient,
+	db = 'mongodb://localhost:27017/notesjs',
+	search = require( './search.js' );
 
-var MongoClient = require( 'mongodb' ).MongoClient;
-
-exports.dbConn = function( callback ) {
-	MongoClient.connect( "mongodb://team326:notesnotesnotes@timm-allman.mynetgear.com:27017/notesjs", callback);
+exports.dbConn = function ( callback ) {
+	'use strict';
+	MongoClient.connect( db, { db : { native_parser : true } }, callback );
 };
+
+exports.find = search.find;
+exports.findByID = search.findByID;

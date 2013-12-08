@@ -1,5 +1,5 @@
 {
-  "name"   : "share_database",
-  "version": "0.0.1",
-  "main": "share_database.js"
+	"name" : "share_database",
+	"version" : "0.0.1",
+	"main" : "share_database.js"
 }

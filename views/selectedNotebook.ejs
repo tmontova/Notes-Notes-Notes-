@@ -1,19 +1,18 @@
-<%- include partials/head.ejs %>
-<%- include partials/homesnbnavbar.ejs %>
+<% include partials/head.ejs %>
+<% include partials/navbar.ejs %>
 
-</header>
 <div id='body'>
-<%- include partials/sidebar.ejs %>
+	<div id="selectedNotebook"></div>
+	<% include partials/sidebar.ejs %>
 
 	<div id="mainContent">
-		<div class="header"><%=notebook%> Notebook</div>
+		<div class="header"><%= selectedNotebook.title %></div>
 		<div class="content">
-		<%- include partials/results.ejs %> 
+			<% include partials/results.ejs %>
 			<div id="nContainer"></div>
 		</div>
 	</div>
 </div>
 </div>
 
-<%- include partials/foot.ejs %>
-
+<% include partials/foot.ejs %>

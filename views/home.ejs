@@ -1,37 +1,18 @@
-<%- include partials/head.ejs %>
-<%- include partials/homesnbnavbar.ejs %>
+<% include partials/head.ejs %>
+<% include partials/navbar.ejs %>
 
 <div id='body'>
-<%- include partials/sidebar.ejs %>
-
-	<div id="yourContent">
-		<%if (typeof username !== 'undefined') {%>
-		<div class="header"><%=username%>'s Notebooks</div>
-		<% }else {%>
-		<div class="header">Notebooks</div>
-		<% } %>
-		<div class="content">
-		  <%- include partials/results.ejs %> 
-			<div id="nContainer"></div>
+	<div id="home"></div>
+	<% include partials/sidebar.ejs %>
+	<div id="mainContent">
+		<div id="yourContent">
+			<div class="header">Notebooks</div>
+			<div class="content">
+				<% include partials/results.ejs %>
+				<div id="nContainer"></div>
+			</div>
 		</div>
 	</div>
 </div>
 
-	<div id="theirContent">
-		<div class="header">Notebooks Shared With You:</div>
-		<div class="content">
-		<%- include partials/homeresults.ejs %> 
-			<div id="nContainer"></div>
-		</div>
-	</div>
-</div>
-
-
-
-</div>
-
-<%- include partials/foot.ejs %>
-
-
-
-
+<% include partials/foot.ejs %>

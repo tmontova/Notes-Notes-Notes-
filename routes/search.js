@@ -2,20 +2,21 @@
  * Created by tallman on 10/28/13.
  */
 
-var note = require( '../lib/note' );
-var notebook = require( '../lib/notebook' );
+var Note = require( '../lib/note' );
+var Notebook = require( '../lib/notebook' );
 
-exports.searchAll = function( req, res ) {
-	var query = req.query.q;
+exports.searchAll = function ( req, res ) {
+	var q = req.query.q,
+		query = [ { title : q }, { tags : q } ],
+		user = req.session.user;
 
-	note.find( query, undefined, function( results, db ) {
+	Note.find( query, [ { userID : user._id }, { 'shared.with' : user._id } ], function ( results ) {
 		var noteResults = results;
-		var noteDb = db;
 
-		notebook.find( query, undefined, function( results, db ) {
-			results = results.concat(noteResults);
+		Notebook.find( query, [ { userID : user._id }, { 'shared.with' : user._id } ], function ( results ) {
+			results = results.concat( noteResults );
 
-			results.sort( function( a, b ) {
+			results.sort( function ( a, b ) {
 				if ( a.title == b.title ) {
 					return 0;
 				} else if ( a.title < b.title ) {
@@ -25,18 +26,28 @@ exports.searchAll = function( req, res ) {
 				}
 			} );
 
-			res.render( 'search all', {
+			res.render( 'search', {
 				title : 'Search All',
-				query : query,
-				results : results
+				query : q,
+				results : results,
+				signedInUser : user,
+				search : true
 			} );
-
-			db.close();
-			noteDb.close();
 		} );
 	} );
 };
 
-exports.searchNotebook = function( req, res ) {
+exports.searchNotebook = function ( req, res ) {
+	var query = req.query.q;
 
+	Notebook.findByID( req.params.id, function ( err, notebook ) {
+		Note.find( query, [ { notebookID : notebook._id } ], function ( results ) {
+			res.render( 'search', {
+				title : 'Search All',
+				query : query,
+				results : results,
+				selectedNotebook : notebook
+			} );
+		} );
+	} );
 };

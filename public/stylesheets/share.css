@@ -51,6 +51,11 @@
 #sharedList{
 	top: 20px;
 }
+
+#sharedList * {
+	position: relative !important;
+}
+
 .uid{
 
 }

@@ -1,23 +1,14 @@
-<title>Sharing - Notes! Notes! Notes!</title>
-<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-<link rel="stylesheet" type="text/css" href="/stylesheets/share.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-<script type="text/javascript" src="/javascripts/application.js"></script>
-<script type="text/javascript" src="/javascripts/getResults_ajax.js"></script>
-
-
-<header id='page_header'>
-			<% include partials/navbar %>
-</header>
-
+<% include partials/head %>
+<% include partials/navbar %>
 
 <div id='body'>
-
-		<% include partials/share_sidebar %>
+	<div id="share"></div>
+	<% include partials/share_sidebar %>
 	<div id='results'>
 		<% include partials/share_searchbar %>
-		<table id='search_results_div'></table>	
+		<table id='search_results_div'></table>
 		<div id='edit_results_div'></div>
 	</div>
-
 </div>
+
+<% include partials/foot %>

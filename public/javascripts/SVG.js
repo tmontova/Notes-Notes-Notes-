@@ -1,7 +1,8 @@
 /**
  * Created by timm on 11/21/13.
  */
-var constants = new Object();
+
+var constants = {};
 var dots = [];
 var timer;
 var curDot;
@@ -19,14 +20,16 @@ function setConstants () {
 
 /* Animation Setup */
 function initDotsArray () {
-	var delta = 2 * Math.PI / constants.num;
-	for ( var i = 0; i < constants.num; i++ ) {
+	var delta = 2 * Math.PI / constants.num,
+		i;
+	for ( i = 0; i < constants.num; i += 1 ) {
 		dots[i] = { x : Math.cos( i * delta - Math.PI / 2 ), y : Math.sin( i * delta - Math.PI / 2 ), r : constants.r, name : 'dot' + i };
 	}
 }
 
 function appendSpinner () {
-	var spinner = document.createElementNS( "http://www.w3.org/2000/svg", "g" );
+	var spinner = document.createElementNS( "http://www.w3.org/2000/svg", "g" ),
+		coordinateFrame = document.getElementById( 'coordinateFrame' );
 	spinner.id = 'spinner';
 	coordinateFrame.appendChild( spinner );
 	return spinner;
@@ -44,40 +47,24 @@ function appendDot ( dot, spinner ) {
 }
 
 function loadDots () {
-//	var transformElem = svgElem.createSVGTransform();
-	for ( var i = 0; i < dots.length; i++ ) {
+	var i;
+	for ( i = 0; i < dots.length; i += 1 ) {
 		dots[i].obj = document.getElementById( dots[i].name );
-		// dots[i].obj.transform.baseVal.appendItem(transformElem);
 	}
-}
-
-function initSpinner () {
-	setConstants();
-
-	initDotsArray();
-	var spinner = appendSpinner();
-	for ( var i = 0; i < dots.length; i++ ) {
-		appendDot( dots[i], spinner );
-	}
-
-	var X = (window.innerWidth - $( '#sidebar' ).width()) / 2 - ( constants.size + constants.r ) / 2;
-	var Y = 20;
-
-	$( '#svgElem' ).css( { 'x' : X + 'px', 'y' : Y + 'px' } );
-
-	loadDots();
-
-	timer = setInterval( doAnim, constants.delay );
-	curDot = 0;
 }
 
 function doAnim () {
-	var numVis = constants.numVis, deltaOpacity = 1 / numVis, numToSkip = constants.numToSkip, d = 0;
+	var numVis = constants.numVis,
+		deltaOpacity = 1 / numVis,
+		numToSkip = constants.numToSkip,
+		d = 0,
+		i,
+		elem;
 
 	dots[curDot].obj.style.opacity = 1;
 
-	for ( var i = 1; i <= numVis * numToSkip + 1; i++ ) {
-		var elem = curDot - i;
+	for ( i = 1; i <= numVis * numToSkip + 1; i++ ) {
+		elem = curDot - i;
 		if ( elem < 0 ) {
 			elem = constants.num + elem;
 		}
@@ -93,6 +80,29 @@ function doAnim () {
 	if ( ++curDot >= constants.num ) {
 		curDot = 0;
 	}
+}
+
+function initSpinner () {
+	var spinner = appendSpinner(),
+		i,
+		svgElem = document.getElementById( 'svgElem' ),
+		X = (window.innerWidth - $( '#sidebar' ).width()) / 2 - ( constants.size + constants.r ) / 2,
+		Y = 20;
+	setConstants();
+
+	initDotsArray();
+	for ( i = 0; i < dots.length; i += 1 ) {
+		appendDot( dots[i], spinner );
+	}
+
+	svgElem.style.position = 'absolute';
+	svgElem.style.left = X;
+	svgElem.style.top = Y;
+
+	loadDots();
+
+	timer = setInterval( doAnim, constants.delay );
+	curDot = 0;
 }
 
 function stopAnim () {

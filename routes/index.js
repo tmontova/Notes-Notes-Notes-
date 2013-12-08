@@ -1,72 +1,83 @@
+var User = require( '../lib/user/' );
+
 /*
  * GET home page.
+ * Author : 
  */
-var userhomeurl = '../';
-var userdb = require('../lib/user/user.js');
-exports.home = function (req, res) {
-    res.render('index', { title: 'Notes! Notes! Notes!'});
+exports.home = function ( req, res ) {
+	res.render( 'index', { title : 'Home' } );
 };
-exports.login = function (req, res) {
-    res.render('login', { title: 'Notes! Notes! Notes!'});
-};
-exports.submit = function (req, res) {
-    if (req.body['first-name']) {
-        if (req.body['first-name'] > 60) {
-            res.render('login', { title: 'Notes! Notes! Notes!', signuperrmsg: 'Maximum "First Name" length is 60 characters'});
-        }
-        else if (req.body['last-name'] > 60) {
-            res.render('login', { title: 'Notes! Notes! Notes!', signuperrmsg: 'Maximum "Last Name" length is 60 characters'});
-        }
-        else if (req.body['signup-password'] !== req.body['confirm-password']) {
-            res.render('login', { title: 'Notes! Notes! Notes!', signuperrmsg: '"Confirm Password" must match "Password"'});
-        }
-        else if (req.body['signup-password'].length > 12) {
-            res.render('login', { title: 'Notes! Notes! Notes!', signuperrmsg: 'Maximum "Password" length is 12 characters'});
-        }
-        else {
-            userdb.findUser(req.body['signup-email'], function (findreturn) {
-                if (typeof findreturn == "object") {
-                    res.render('login', { title: 'Notes! Notes! Notes!', signuperrmsg: 'User already exists with provided e-mail'});
-                }
-                else if (findreturn < 0) {
-                    res.render('login', { title: 'Notes! Notes! Notes!', signuperrmsg: 'Failed to access database'});
-                }
-                else {
-                    //add user to db
-                    userdb.addUser(req.body['first-name'], req.body['last-name'], req.body['signup-email'], req.body['signup-email'], req.body['signup-password'], function (returnid) {
-                            var id = returnid;
-                            if (!id || id < 0) {
-                                res.render('login', { title: 'Notes! Notes! Notes!', signuperrmsg: 'Failed to access database'});
-                            }
-                            else {
-                                //redirect to user home page with id stored in cookies as "userid" warning: not a number
-                                res.cookie("userid", id);
-                                res.redirect(userhomeurl);
-                            }
-                        }
-                    );
-                }
-            });
-        }
-    }
 
-    else if (req.body['login-email']) {
-        userdb.authent(req.body['login-email'], req.body['login-password'], function (returnid) {
-            var id = returnid;
-            if (!id) {
-                res.render('login', { title: 'Notes! Notes! Notes!', loginerrmsg: 'There is no account with that username/password combination'});
-            }
-            else if (id < 0) {
-                res.render('login', { title: 'Notes! Notes! Notes!', loginerrmsg: 'Failed to access database'});
-            }
-            else {
-                //redirect to user home page with id stored in cookies as "userid" warning: not a number
-                res.cookie("userid", id);
-                res.redirect(userhomeurl);
-            }
-        });
-    }
-    else {
-        res.render('login', { title: 'Notes! Notes! Notes!', signuperrmsg: 'Please log in or sign up to continue', loginerrmsg: 'Please log in or sign up to continue'});
-    }
+/*
+ * GET login/signup page.
+ * Author : 
+ */
+exports.signupLogin = function ( req, res ) {
+	if( typeof req.session.userID !== 'undefined' ) {
+		res.redirect( '/home' );
+	} else {
+		res.render( 'login', { title : 'Login/SignUp', noLogin : true } );
+	}
+};
+
+/**
+ * POST signup
+ * Authors : Timm Allman,
+ */
+exports.signup = function ( req, res ) {
+	var fname = req.body['first-name'],
+		lname = req.body['last-name'],
+		email = req.body['signup-email'],
+		pswd = req.body['signup-password'],
+		cpswd = req.body['confirm-password'];
+
+	if ( fname > 60 ) {
+		res.render( 'login', { title : 'Login/Signup', signuperrmsg : 'First Name must be fewer than 60 characters' } );
+	} else if ( lname > 60 ) {
+		res.render( 'login', { title : 'Login/Signup', signuperrmsg : 'Last Name must be fewer than 60 characters' } );
+	} else if ( pswd.length < 6 || pswd.length > 12 ) {
+		res.render( 'login', { title : 'Login/Signup', signuperrmsg : 'Password must be between 6 and 12 characters' } );
+	} else if ( pswd !== cpswd ) {
+		res.render( 'login', { title : 'Login/Signup', signuperrmsg : 'Password must match Confirmation Password' } );
+	} else {
+		User.add( fname, lname, email, pswd, function ( err, uid ) {
+			if ( err ) {
+				console.dir( err );
+				res.render( 'login', { title : 'Login/Signup', signuperrmsg : 'Something went wrong. Please try again in a few minutes.'} );
+			} else if ( uid === null ) {
+				res.render( 'login', { title : 'Login/Signup', signuperrmsg : 'A user with that email already exists. Please use a different email.'} );
+			} else {
+				req.session.userID = uid;
+				res.redirect( '/home' );
+			}
+		} );
+	}
+};
+
+/**
+ * POST login
+ * Authors : Timm Allman,
+ */
+exports.login = function ( req, res ) {
+	var email = req.body['login-email'],
+		pswd = req.body['login-password'];
+
+	User.auth( email, pswd, function ( err, uid ) {
+		if ( err ) {
+			console.dir( err );
+			res.render( 'login', { title : 'Login/Signup', signuperrmsg : 'Something went wrong. Please try again in a few minutes.'} );
+		} else if ( uid === null ) {
+			res.render( 'login', { title : 'Login/Signup', loginerrmsg : 'Incorect username or password'} );
+		} else {
+			req.session.userID = uid;
+			res.redirect( '/home' );
+		}
+	} );
+};
+
+/**
+ * Author :
+ */
+exports.helpHome = function ( req, res ) {
+	res.render( 'homehelp', { title : 'Help', noLogin : true } );
 };

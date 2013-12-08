@@ -1,6 +1,41 @@
-<!DOCTYPE html>
-<html>
-<body>
-Nothing to see yet
-</body>
-</html>
+<% include partials/head %>
+<% include partials/navbar %>
+
+<div id='b'>
+	<div id="help"></div>
+	<div class="t">
+	<h1>Welcome to The Help Page!</h1>
+	</div>
+		<div class="inners">
+			<nav class="toc">
+				<h4> CONTENT:</h4>
+				<ul>
+					<li><a href="#one">How do I Sign Up?</a></li>
+					<li><a href="#two">How do I save a note I'm currently editing?</a></li>
+					<li><a href="#three">I Created an Unfiled Note on the Home Screen, where is it?</a></li>
+					<li><a href="#last">Who is Team No Name?</a></li>
+				</ul>
+			</nav>
+
+			<h2>What is this site?</h2>
+			<p id="intro">Notes! Notes! Notes! is your one stop application for organizing, taking, viewing, and sharing notes! With our application, you can easily take notes, organize them in notebooks of your choosing, then easily share all your content with friends and family!  Drop the traditional pen and paper, and join the Notes family!</p>
+
+			<h3 id="one">How Do I Sign-Up?</h3>
+			<p> To sign up, simply navigate to our splash page (notesnotesnotes.com), and click the Sign Up Now button. From here, you will be directed to the login/registration page that looks like the following: </p>
+			<span class="pages"><img src="/images/Login-SignUp.png"/></span>
+			<p>If you already have an account with us, simply login in with your credentials listed under the Log In Now, located on the right side of the page, then click Log In to access your account.</p>
+			<p>If you do not previously have an account, simply fill in the required fields under Sign Up Now, located on the left side of the page, then click Sign Up to create a new account.</p>
+
+			<h3 id="two">How do I save a note I'm currently editing?</h3>
+			<p> With the Notes! application, there is no save function. Any changes made to a document you are editing are automatically saved for you. This is for your convience, so that you do not forget to save, or lose progress if you, say, accidently close the app. </p>
+
+			<h3 id="three">I Created an Unfiled Note on the Home Screen, where is it?</h3>
+			<p> Unfiled notes created on the Home Screen are placed in the Unfiled Notes Notebook. </p>
+
+			<h3 id="last">Who is Team No Name?</h3>
+			<p> Team No Name consists of five fellow Computer Science students at the University of Massachusetts, Amherst. The group met throughout various courses in their time at the university, but when faced with the task of creating a web-application in Professor Timothy Richard's Web Programming Course (CS326), the five knew that they were meant to assemble one super group, thus creating Team No Name. </p>
+			<p> Team No Name is made up Timothy Allman, Patrick Broughton, Nicholas Combs, Thomas Montovani, and Christopher Peterson. </p>
+		</div>
+</div>
+
+<% include partials/foot %>

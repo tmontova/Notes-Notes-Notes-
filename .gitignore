@@ -11,7 +11,6 @@ pids
 logs
 results
 
-npm-debug.log
 node_modules
 bower_components
 packages
@@ -23,3 +22,9 @@ web.config
 
 .DS_Store
 /server.js.debug
+
+*.min*
+*.bundle
+
+application.css
+app.js

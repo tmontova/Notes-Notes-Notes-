@@ -1,0 +1,21 @@
+<% include partials/head.ejs %>
+<% include partials/navbar.ejs %>
+
+<div id="body">
+	<div id="search"></div>
+	<% include partials/sidebar.ejs %>
+
+	<div id="mainContent">
+		<% if ( typeof selectedNotebook !== 'undefined' ) { %>
+		<div class="header">Search Results for '<%= query %>' from <%= selectedNotebook.title %></div>
+		<% } else { %>
+		<div class="header">Search Results for '<%= query %>'</div>
+		<% } %>
+		<div class="content">
+			<% include partials/results.ejs %>
+			<div id="nContainer"></div>
+		</div>
+	</div>
+</div>
+
+<% include partials/foot.ejs %>

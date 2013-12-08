@@ -1,67 +1,70 @@
 /**
  * Created by tallman on 10/28/13.
  */
-/**
- * Created by tallman on 10/28/13.
- */
-var username;
-var nb = "Physics";
-var notebook = require( '../lib/notebook' );
-var note= require( '../lib/note' );
+var Notebook = require( '../lib/notebook' );
 
+exports.add = function ( req, res ) {
+	'use strict';
+	Notebook.count( function ( err, num ) {
+		var title;
+		if ( typeof req.query.title !== 'undefined' ) title = req.query.title;
+		else title = 'title' + num;
 
-exports.notebookHome = function(req, res){
-
-notebook.listThem(function( results, db){
-	var noteResults = results;
-	var noteDB = db;
-
-			results.sort( function( a, b ) {
-				if ( a.title == b.title ) {
-					return 0;
-				} else if ( a.title < b.title ) {
-					return -1;
-				} else {
-					return 1;
-				}
-			} );
-
-			res.render( 'home', {
-				username : username,
-				title: 'Home Screen',
-				results : results,
-				results2: noteResults
-			} );
-
-			db.close();
-			noteDB.close();
+		Notebook.add( req.session.user._id, title, [], function ( err ) {
+			if ( err )
+				console.error( "db failed: " + err );
+			else
+				res.redirect( '/home' );
 		} );
-	
+	} );
 };
 
-exports.snb = function(req, res){
-note.listThem(function( results, db){
-	var noteResults = results;
-	var noteDB = db;
-		results.sort( function( a, b ) {
-				if ( a.title == b.title ) {
-					return 0;
-				} else if ( a.title < b.title ) {
-					return -1;
-				} else {
-					return 1;
+exports.home = function ( req, res ) {
+	'use strict';
+	var user = req.session.user;
+
+	Notebook.find( '', [ { userID : user._id }, { 'shared.with' : user._id } ], function ( results, db ) {
+		res.render( 'home',
+			{
+				title : 'Home',
+				results : results,
+				signedInUser : req.session.user,
+				home : true
+			}
+		);
+	} );
+};
+
+exports.selected = function ( req, res ) {
+	'use strict';
+	var Note = require( '../lib/note' );
+
+	Notebook.findByID( req.params.id, function ( err, notebook ) {
+		Note.find( '', [ { notebookID : notebook._id } ], function ( results ) {
+			res.render( 'selectednotebook',
+				{
+					title : notebook.title,
+					id : req.params.id,
+					results : results,
+					signedInUser : req.session.user,
+					selectedNotebook : notebook
 				}
-			} );
-	res.render( 'selectednotebook', {
-				title: nb + ' Notebook',
-				notebook : nb ,
-				results : results
-		
-			} );
-		db.close();
-			noteDB.close();
+			);
+		} );
+	} );
+};
 
-
-});
-}
-	
+exports.get = function ( req, res ) {
+	'use strict';
+	if ( req.body ) {
+		var id = req.body._id;
+		Notebook.findByID( id, function ( err, item ) {
+			if ( err ) {
+				console.error( 'db failed: ' + err );
+			} else {
+				res.contentType( 'application/json' );
+				res.send( item );
+			}
+		} );
+	}
+};

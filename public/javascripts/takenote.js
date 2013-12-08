@@ -1,21 +1,18 @@
-$(document).ready(function () {
+$( document ).ready( function () {
 
 	/* TODO:
-			navbar:
-				Add Download support
-				Add Sharing support
-				Add tagging support
-			Sidebar:
-				Add search capabilities
-				Show active users
-			User stuff
-	*/
+	 navbar:
+	 Add Download support
+	 Sidebar:
+	 Show active users
+	 */
 	var doc;
-	var textE = new nicEditor().panelInstance('text-editor');
-	var text = textE.instanceById('text-editor');
-	var text_jq = $( "div.nicEdit-main ");
-	var title = $("#title");
-	var title_i = $("#title_input");
+	var textE = new nicEditor().panelInstance( 'text-editor' );
+	var text = textE.instanceById( 'text-editor' );
+	var text_jq = $( "div.nicEdit-main " );
+	var title = $( "#title" );
+	var title_i = $( "#title_input" );
+	
 
 	$.ajax({
 		type: "POST",
@@ -26,68 +23,94 @@ $(document).ready(function () {
 		doc = d;
 		updateDoc(doc);
 	});
- 	
-	var socket = io.connect();
 
-	socket.on("connect", function(){
+ 	var socket = io.connect();
 
-		socket.on("view_update", function(item){
-			console.log("wut");
-			updateDoc(item);
-		})
-	});
+	socket.on( "connect", function () {
+		socket.emit('subscribe', {id: id});
+		socket.on( "view_update", function ( item ) {
+			$('li').css('color', 'red');
+			$('#save').text("Not Saved");
+			updateDoc( item );
+		} )
+	} );
+
+	function update(item){
+			updateData( item );
+			updateDoc( item );
+			socket.emit( 'doc_change', item);
+	}
 
 	// Updates current document on database
-	function updateData(item){
-		$.ajax({
-			type: "POST",
-			url: '/update',
-			data:{ doc: item }
-		}).done(function(item){
-			doc = item;
-		});
+	function updateData( item ) {
+		if(item){
+			$('#save').text("Saving...");
+			$('li').css('color', 'red');
+			$.ajax( {
+				type : "POST",
+				url : '/update',
+				data : { doc : item }
+			} ).done( function ( item ) {
+					console.log("Saved on db");
+					doc = item;
+					$('#save').text("Saved");
+					$('li').css('color', 'green');
+				} );
+		}
 	}
-	// Updates text and title of current page
-	function updateDoc(item){
-		title.text(item.title);
-		text.setContent(item.note);
+
+	// Updates text, title and tags of current page
+	function updateDoc( item ) {
+		$('#tagContainer').text(item.tags.join(' '));
+		title.text( item.title );
+		text.setContent( item.note );	
 	}
+
 
 	function bind_events() {
 		// Bind every keyup to a socket event
-		var i = 0;
-		text_jq.bind( "keyup", function(e){
+		text_jq.bind( "keyup", function ( e ) {
 			doc.note = text.getContent();
-			// updateData(doc);
-			socket.emit('doc_change', doc);
+			$('li').css('color', 'red');
+			$('#save').text("Not Saved");
+			socket.emit( 'doc_change', doc );
+		} );
 
-			// Update the doc every 10 keystrokes? Need to figure out when to save doc..
-			
-			i++;
-			console.log(i);
-			if (i == 10){
-				updateData(doc);
-				i = 0;
+		$('#navAddTag').bind( "click", function( e ) {
+			$('#tag_input').attr("value", doc.tags.join(" "));
+			var pos = $(this).offset();
+			$('#tag_input').slideDown();
+			$('#tag_input').offset({top: pos.top+30, left: pos.left});		
+		});
+		$('#tag_input').bind( 'keydown', function(e) {
+			if(event.which == 13) {
+				$(this).slideUp();
+				doc.tags = $(this).val().split(" ");
+				update(doc);
+				return false;
 			}
 		});
-		title.bind("click", function(){
-			$(this).hide();
-			title_i.attr( "value", $(this).text() );
-			title_i.show();
-		});
-		// Bind enter key(event 13) to title input
-		title_i.bind( "keydown" , function(event) {
-			if(event.which == 13){
-				$(this).hide();
-				doc.title = $(this).val() 
-				updateDoc(doc);
-				title.show();
-				updateData(doc);
-				socket.emit('doc_change', doc);
-				return false;
-		}
-		});
-	}
 
+		title.bind( "click", function () {
+			$( this ).hide();
+			title_i.attr( "value", $( this ).text() );
+			title_i.show();
+		} );
+		// Bind enter key(event 13) to title input
+		title_i.bind( "keydown", function ( event ) {
+			if ( event.which == 13 ) {
+				$( this ).hide();
+				doc.title = $( this ).val()
+				title.show();
+				update(doc);
+				return false;
+			}
+
+		} );
+
+	// Update the db every 10 seconds
+	setInterval( function(){
+		updateData(doc); }, 10000);
+	}
 	bind_events();
-})
+} );
