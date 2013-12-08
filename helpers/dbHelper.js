@@ -3,7 +3,7 @@
  */
 var MongoDB = require( 'mongodb' ),
 	MongoClient = MongoDB.MongoClient,
-	db = 'mongodb://localhost:27017/notesjs',
+	db = 'mongodb://team326:notesnotesnotes@timm-allman.mynetgear.com:27017/notesjs',
 	search = require( './search.js' );
 
 exports.dbConn = function ( callback ) {
